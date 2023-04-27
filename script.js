@@ -11,19 +11,39 @@ body.appendChild(title);
 
 var textArea = document.createElement('textarea');
 textArea.classList.add('textarea');
-title.appendChild(textArea);
+title.after(textArea);
 
 // KEYBOARD
 var keyboard = document.createElement('div');
 keyboard.classList.add('keyboard');
-textArea.appendChild(keyboard);
+textArea.after(keyboard);
 
 // BUTTONS
-var button = document.createElement('div');
-button.classList.add('buttons');
-//let keyboard = [];
+import letters from './letters.js';
+function fill() {
+	let button = '';
+	for (let i = 0; i < letters.length; i++) {
+		button +=
+			'<div class="buttons" data="' +
+			letters[i].button +
+			'" >' +
+			letters[i].eng[0] +
+			'</div>';
+	}
+	keyboard.innerHTML = button;
+}
+fill();
 
-keyboard.document.onkeypress = function (event) {
-	keyboard.push(event.charCode);
-	console.log(keyboard);
+document.onkeypress = function (event) {
+	console.log(event);
+	for (let i = 0; i < letters.length; i++) {
+		for (let j = 0; j < letters[i].all.length; j++) {
+			if (event.key == letters[i].all[j]) {
+				let niu = document.querySelector(
+					'.buttons[data="' + letters[i].button + '"]'
+				);
+				console.log(niu);
+			}
+		}
+	}
 };
