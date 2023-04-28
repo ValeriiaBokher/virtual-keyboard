@@ -9,20 +9,23 @@
 	display: block;
 	margin: 40px auto;
 	width: 60%;
-	height: 100px;
+	height: 150px;
 	resize: none;
 	border-radius: 15px;
 	padding: 10px;
 }
 
 .keyboard {
-	display: block;
+	display: flex;
 	border: 2px solid #000;
 	margin: 50px auto;
 	text-align: center;
-	width: 1060px;
-	height: 300px;
+	width: 1070px;
+	height: 320px;
 	border-radius: 15px;
+	align-items: top;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .buttons {
@@ -44,4 +47,19 @@
 
 .buttons:active {
 	background-color: aquamarine;
+}
+
+._active {
+	background-color: aquamarine;
+}
+
+.buttons[data='41'],
+.buttons[data='42'] {
+	padding: 0 40px;
+}
+.buttons[data='54'] {
+	padding: 0 47px;
+}
+.buttons[data='58'] {
+	padding: 0 190px;
 }
