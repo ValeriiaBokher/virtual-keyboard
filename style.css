@@ -2,14 +2,14 @@
 	font-size: 40px;
 	text-align: center;
 	margin: 0;
-	padding-top: 40px;
+	padding-top: 20px;
 }
 
 .textarea {
 	display: block;
-	margin: 40px auto;
-	width: 60%;
-	height: 150px;
+	margin: 30px auto;
+	width: 970px;
+	height: 170px;
 	resize: none;
 	border-radius: 15px;
 	padding: 10px;
@@ -17,10 +17,9 @@
 
 .keyboard {
 	display: flex;
-	border: 2px solid #000;
 	margin: 50px auto;
 	text-align: center;
-	width: 1070px;
+	width: 1000px;
 	height: 320px;
 	border-radius: 15px;
 	align-items: top;
@@ -33,7 +32,7 @@
 	height: 45px;
 	padding: 0 20px;
 	max-width: 90px;
-	margin: 8px;
+	margin: 5px;
 	border-radius: 5px;
 	border: 2px solid #000;
 	color: #000;
@@ -61,5 +60,37 @@
 	padding: 0 47px;
 }
 .buttons[data='58'] {
-	padding: 0 190px;
+	padding: 0 167px;
+}
+
+.buttons[data='53'] {
+	background-image: url('./assets/arrowUp.png');
+	background-repeat: no-repeat;
+	background-size: 15px;
+	background-position: center;
+	padding: 0 22px;
+}
+
+.buttons[data='60'] {
+	background-image: url('./assets/arrowLeft.png');
+	background-repeat: no-repeat;
+	background-size: 15px;
+	background-position: center;
+	padding: 0 22px;
+}
+
+.buttons[data='61'] {
+	background-image: url('./assets/arrowDown.png');
+	background-repeat: no-repeat;
+	background-size: 15px;
+	background-position: center;
+	padding: 0 22px;
+}
+
+.buttons[data='62'] {
+	background-image: url('./assets/arrowRight.png');
+	background-repeat: no-repeat;
+	background-size: 15px;
+	background-position: center;
+	padding: 0 22px;
 }
