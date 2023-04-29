@@ -30,9 +30,9 @@
 .buttons {
 	font-size: 20px;
 	height: 45px;
-	padding: 0 20px;
+	width: 50px;
 	max-width: 90px;
-	margin: 5px;
+	margin: 4px;
 	border-radius: 5px;
 	border: 2px solid #000;
 	color: #000;
@@ -52,45 +52,96 @@
 	background-color: aquamarine;
 }
 
-.buttons[data='41'],
+._active-caps {
+	border: 2px solid blue;
+	color: blue;
+}
+
+/* backspace */
+.buttons[data='13'] {
+	width: 220px;
+	padding: 0 35px;
+}
+/* tab */
+.buttons[data='14'] {
+	width: 70px;
+}
+
+/* delete*/
+.buttons[data='28'] {
+	width: 95px;
+	padding: 0 5px;
+}
+
+/* caps*/
+.buttons[data='29'] {
+	width: 170px;
+	padding: 0 20px;
+}
+/* Enter */
+.buttons[data='41'] {
+	width: 120px;
+	padding-left: 40px;
+}
+/* Shift-left */
 .buttons[data='42'] {
 	padding: 0 40px;
 }
+/* Shift-right */
 .buttons[data='54'] {
-	padding: 0 47px;
+	padding-left: 60px;
+	padding-right: 20px;
 }
+/* space */
 .buttons[data='58'] {
-	padding: 0 167px;
+	padding: 0 170px;
 }
-
+/* arrow-up */
 .buttons[data='53'] {
 	background-image: url('./assets/arrowUp.png');
 	background-repeat: no-repeat;
 	background-size: 15px;
 	background-position: center;
-	padding: 0 22px;
+	width: 60px;
 }
 
+/* ctrl-left */
+.buttons[data='55'] {
+	padding-right: 58px;
+}
+
+/* arrow-left */
 .buttons[data='60'] {
 	background-image: url('./assets/arrowLeft.png');
 	background-repeat: no-repeat;
 	background-size: 15px;
 	background-position: center;
-	padding: 0 22px;
+	width: 60px;
 }
-
+/* arrow-down */
 .buttons[data='61'] {
 	background-image: url('./assets/arrowDown.png');
 	background-repeat: no-repeat;
 	background-size: 15px;
 	background-position: center;
-	padding: 0 22px;
+	width: 60px;
 }
-
+/* arrow-right */
 .buttons[data='62'] {
 	background-image: url('./assets/arrowRight.png');
 	background-repeat: no-repeat;
 	background-size: 15px;
 	background-position: center;
-	padding: 0 22px;
+	width: 60px;
+}
+
+/* ctrl-right */
+.buttons[data='63'] {
+	width: 60px;
+}
+
+.description {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
 }

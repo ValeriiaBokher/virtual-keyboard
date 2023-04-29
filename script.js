@@ -18,31 +18,54 @@ var keyboard = document.createElement('div');
 keyboard.classList.add('keyboard');
 textArea.after(keyboard);
 
+//CAPS LOCK
+var fontType = 0;
+
 // BUTTONS
 var button = '';
 import letters from './letters.js';
+
 function fill() {
 	for (let i = 0; i < letters.length; i++) {
 		button +=
 			'<div class="buttons" data="' +
 			letters[i].button +
 			'" >' +
-			letters[i].eng[0] +
+			letters[i].eng[fontType] +
 			'</div>';
 	}
 	keyboard.innerHTML = button;
+	// ввод с помощью мыши
+	const buttons = document.querySelectorAll('.buttons');
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].addEventListener('click', function (e) {
+			mouseClick(e.target);
+		});
+	}
+
+	if (fontType == 1) {
+		buttons[29].classList.add('_active-caps');
+	}
 }
 fill();
 
-// ввод с помощью мыши
-const buttons = document.querySelectorAll('.buttons');
-for (let i = 0; i < buttons.length; i++) {
-	buttons[i].addEventListener('click', function (e) {
-		let _this = this;
-		let attribute = _this.getAttribute('data');
-		textArea.append(letters[attribute].eng[0]);
-		console.log(attribute);
-	});
+function mouseClick(_this) {
+	//	let _this = this;
+	let attribute = _this.getAttribute('data');
+	// Caps lock
+	if (attribute == '29') {
+		_this.classList.toggle('_active-caps');
+		if (fontType == 0) fontType = 1;
+		else if (fontType == 1) fontType = 0;
+		button = '';
+		// while (keyboard.firstChild) {
+		// 	keyboard.removeChild(keyboard.firstChild);
+		// }
+
+		fill();
+	} else {
+		textArea.append(letters[attribute].eng[fontType]);
+	}
 }
 
 // при нажатии кнопки на клавиатуре включается анимания
@@ -82,7 +105,7 @@ document.addEventListener('keydown', function (event) {
 	}
 });
 
-// при отжатии кнопки на клавиатуре выключается анимания3
+// при отжатии кнопки на клавиатуре выключается анимания
 document.addEventListener('keyup', function (event) {
 	3;
 	for (let i = 0; i < letters.length; i++) {
@@ -126,29 +149,15 @@ document.addEventListener('keyup', function (event) {
 	}
 });
 
-// document.onkeypress = function (event) {
-// 	console.log(event);
-// 	for (let i = 0; i < letters.length; i++) {
-// 		for (let j = 0; j < letters[i].all.length; j++) {
-// 			if (event.key == letters[i].all[j]) {
-// 				document.querySelectorAll('.buttons').forEach(function (elem) {
-// 					elem.classList.remove('_active');
-// 				});
-// 				document
-// 					.querySelector('.buttons[data="' + letters[i].button + '"]')
-// 					.classList.add('_active');
-// 			}
-// 		}
-// 	}
-// };
+// description
+var description = document.createElement('div');
+description.classList.add('description');
+var descriptionText = document.createTextNode('Virtual Keyboard');
+keyboard.after(descriptionText);
 
-// for (let i = 0; i < letters.length; i++) {
-// 	for (let j = 0; j < letters[i].all.length; j++) {
-// 		if (event.key == letters[i].all[j]) {
-// 			document.querySelectorAll('.buttons').forEach(function (elem) {
-// 				elem.classList.remove('_active');
-// 			});
-// 			2;
-// 		}
-// 	}
-// }
+// LANGUAGE
+let getLocalStorage = localStorage.getItem('Language');
+if (getLocalStorage == null) {
+	localStorage.setItem('Language', 'eng');
+}
+//по клику на кнопку добавляем значение атрибута в Locl Storage
