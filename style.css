@@ -107,7 +107,7 @@
 
 /* ctrl-left */
 .buttons[data='55'] {
-	padding-right: 58px;
+	padding: 0 29px;
 }
 
 /* arrow-left */

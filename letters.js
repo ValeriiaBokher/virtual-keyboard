@@ -362,7 +362,7 @@ const letters = [
 	},
 	{
 		button: 59,
-		all: ['Alt'],
+		all: ['AltGraph'],
 		code: ['AltRight'],
 		eng: ['Alt', 'Alt'],
 		rus: ['Alt', 'Alt'],
