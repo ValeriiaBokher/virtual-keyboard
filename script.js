@@ -1,6 +1,8 @@
 const body = document.body;
 let shiftAct;
 let isShiftPressed = false;
+let isAltGraghPressed = false;
+let isAltPressed = false;
 
 // LANGUAGE
 let getLocalStorage = localStorage.getItem('Language');
@@ -76,15 +78,24 @@ function caps() {
 	}
 }
 
-function shiftAlt() {
-	const buttons = document.querySelectorAll('.buttons');
-	buttons[altshift[0]].classList.add('_active');
-	buttons[altshift[1]].classList.add('_active');
-}
+// function shiftAlt() {
+// 	const buttons = document.querySelectorAll('.buttons');
+// 	buttons[altshift[1]].classList.add('_active');
+// 	buttons[altshift[0]].classList.add('_active');
+// }
 
-function shiftclickadd() {
+function clickadd() {
 	const buttons = document.querySelectorAll('.buttons');
-	buttons[shiftAct].classList.add('_active');
+
+	if (isShiftPressed == true) {
+		buttons[shiftAct].classList.add('_active');
+	}
+	if (isAltGraghPressed == true) {
+		buttons[59].classList.add('_active');
+	}
+	if (isAltPressed == true) {
+		buttons[57].classList.add('_active');
+	}
 }
 
 function mouseClick(_this) {
@@ -147,36 +158,37 @@ function mouseClick(_this) {
 			localStorage.setItem('Language', 'eng');
 			lang = 'eng';
 		}
-		altshift = [];
+		// altshift = [];
 
-		if (
-			document
-				.querySelector('.buttons[data="42"]')
-				.classList.contains('_active')
-		)
-			altshift.push('42');
-		if (
-			document
-				.querySelector('.buttons[data="54"]')
-				.classList.contains('_active')
-		)
-			altshift.push('54');
-		if (
-			document
-				.querySelector('.buttons[data="57"]')
-				.classList.contains('_active')
-		)
-			altshift.push('57');
-		if (
-			document
-				.querySelector('.buttons[data="59"]')
-				.classList.contains('_active')
-		)
-			altshift.push('59');
+		// if (
+		// 	document
+		// 		.querySelector('.buttons[data="42"]')
+		// 		.classList.contains('_active')
+		// )
+		// 	altshift.push('42');
+		// if (
+		// 	document
+		// 		.querySelector('.buttons[data="54"]')
+		// 		.classList.contains('_active')
+		// )
+		// 	altshift.push('54');
+		// if (
+		// 	document
+		// 		.querySelector('.buttons[data="57"]')
+		// 		.classList.contains('_active')
+		// )
+		// 	altshift.push('57');
+		// if (
+		// 	document
+		// 		.querySelector('.buttons[data="59"]')
+		// 		.classList.contains('_active')
+		// )
+		// 	altshift.push('59');
 
 		button = '';
 		fill();
-		shiftAlt();
+
+		clickadd();
 	} else if (
 		attribute == '57' ||
 		attribute == '59' ||
@@ -196,7 +208,7 @@ function mouseClick(_this) {
 
 // при нажатии кнопки на клавиатуре включается анимания
 document.addEventListener('keydown', function (event) {
-	console.log(event.key + '  ' + event.code);
+	// console.log(event.key + '  ' + event.code);
 	for (let i = 0; i < letters.length; i++) {
 		let divButton = document.querySelector(
 			'.buttons[data="' + letters[i].button + '"]'
@@ -225,16 +237,36 @@ document.addEventListener('keydown', function (event) {
 						shiftAct = '54';
 					button = '';
 					fill();
-					shiftclickadd();
 					isShiftPressed = true;
+					clickadd();
 					break;
 				}
 			}
-		} else if (
-			event.key == 'AltGraph' ||
-			event.key == 'Alt' ||
-			event.key == 'Control'
-		) {
+		} else if (event.key == 'AltGraph') {
+			if (isAltGraghPressed == true) {
+			} else {
+				if (event.code == letters[i].code) {
+					divButton.classList.add('_active');
+					divButton.click();
+					event.preventDefault();
+					isAltGraghPressed = true;
+					clickadd();
+					break;
+				}
+			}
+		} else if (event.key == 'Alt') {
+			if (isAltPressed == true) {
+			} else {
+				if (event.code == letters[i].code) {
+					divButton.classList.add('_active');
+					divButton.click();
+					event.preventDefault();
+					isAltPressed = true;
+					clickadd();
+					break;
+				}
+			}
+		} else if (event.key == 'Control') {
 			if (event.code == letters[i].code) {
 				divButton.classList.add('_active');
 				divButton.click();
@@ -273,11 +305,25 @@ document.addEventListener('keyup', function (event) {
 						break;
 					}
 				}
-			} else if (
-				event.key == 'AltGraph' ||
-				event.key == 'Alt' ||
-				event.key == 'Control'
-			) {
+			} else if (event.key == 'AltGraph') {
+				if (isAltGraghPressed == false) {
+				} else {
+					if (event.code == letters[i].code) {
+						divButton.classList.remove('_active');
+						isAltGraghPressed = false;
+						break;
+					}
+				}
+			} else if (event.key == 'Alt') {
+				if (isAltPressed == false) {
+				} else {
+					if (event.code == letters[i].code) {
+						divButton.classList.remove('_active');
+						isAltPressed = false;
+						break;
+					}
+				}
+			} else if (event.key == 'Control') {
 				if (event.code == letters[i].code) {
 					divButton.classList.remove('_active');
 					break;
