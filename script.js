@@ -78,12 +78,6 @@ function caps() {
 	}
 }
 
-// function shiftAlt() {
-// 	const buttons = document.querySelectorAll('.buttons');
-// 	buttons[altshift[1]].classList.add('_active');
-// 	buttons[altshift[0]].classList.add('_active');
-// }
-
 function clickadd() {
 	const buttons = document.querySelectorAll('.buttons');
 
@@ -158,36 +152,22 @@ function mouseClick(_this) {
 			localStorage.setItem('Language', 'eng');
 			lang = 'eng';
 		}
-		// altshift = [];
 
-		// if (
-		// 	document
-		// 		.querySelector('.buttons[data="42"]')
-		// 		.classList.contains('_active')
-		// )
-		// 	altshift.push('42');
-		// if (
-		// 	document
-		// 		.querySelector('.buttons[data="54"]')
-		// 		.classList.contains('_active')
-		// )
-		// 	altshift.push('54');
-		// if (
-		// 	document
-		// 		.querySelector('.buttons[data="57"]')
-		// 		.classList.contains('_active')
-		// )
-		// 	altshift.push('57');
-		// if (
-		// 	document
-		// 		.querySelector('.buttons[data="59"]')
-		// 		.classList.contains('_active')
-		// )
-		// 	altshift.push('59');
+		if (
+			document
+				.querySelector('.buttons[data="42"]')
+				.classList.contains('_active')
+		)
+			shiftAct = '42';
+		if (
+			document
+				.querySelector('.buttons[data="54"]')
+				.classList.contains('_active')
+		)
+			shiftAct = '54';
 
 		button = '';
 		fill();
-
 		clickadd();
 	} else if (
 		attribute == '57' ||
@@ -201,14 +181,17 @@ function mouseClick(_this) {
 		textArea.append('');
 		//Enter
 	} else {
-		// textArea.append(letters[attribute].eng[fontType]);
-		textArea.append(Else(letters[attribute].eng[fontType]));
+		if (lang == 'rus') {
+			textArea.append(Else(letters[attribute].rus[fontType]));
+		} else {
+			textArea.append(Else(letters[attribute].eng[fontType]));
+		}
 	}
 }
 
 // при нажатии кнопки на клавиатуре включается анимания
 document.addEventListener('keydown', function (event) {
-	// console.log(event.key + '  ' + event.code);
+	console.log('+ ' + event.key + '  ' + event.code);
 	for (let i = 0; i < letters.length; i++) {
 		let divButton = document.querySelector(
 			'.buttons[data="' + letters[i].button + '"]'
@@ -242,7 +225,7 @@ document.addEventListener('keydown', function (event) {
 					break;
 				}
 			}
-		} else if (event.key == 'AltGraph') {
+		} else if (event.code == 'AltRight') {
 			if (isAltGraghPressed == true) {
 			} else {
 				if (event.code == letters[i].code) {
@@ -254,7 +237,7 @@ document.addEventListener('keydown', function (event) {
 					break;
 				}
 			}
-		} else if (event.key == 'Alt') {
+		} else if (event.key == 'Alt' && event.code == 'AltLeft') {
 			if (isAltPressed == true) {
 			} else {
 				if (event.code == letters[i].code) {
@@ -277,6 +260,7 @@ document.addEventListener('keydown', function (event) {
 			for (let j = 0; j < letters[i].all.length; j++) {
 				if (event.key == letters[i].all[j]) {
 					divButton.classList.add('_active');
+					event.preventDefault();
 					divButton.click();
 					break;
 				}
@@ -287,6 +271,7 @@ document.addEventListener('keydown', function (event) {
 
 // при отжатии кнопки на клавиатуре выключается анимания
 document.addEventListener('keyup', function (event) {
+	console.log('- ' + event.key + '  ' + event.code);
 	for (let i = 0; i < letters.length; i++) {
 		for (let i = 0; i < letters.length; i++) {
 			let divButton = document.querySelector(
@@ -305,7 +290,7 @@ document.addEventListener('keyup', function (event) {
 						break;
 					}
 				}
-			} else if (event.key == 'AltGraph') {
+			} else if (event.code == 'AltRight') {
 				if (isAltGraghPressed == false) {
 				} else {
 					if (event.code == letters[i].code) {
@@ -314,7 +299,7 @@ document.addEventListener('keyup', function (event) {
 						break;
 					}
 				}
-			} else if (event.key == 'Alt') {
+			} else if (event.key == 'Alt' && event.code == 'AltLeft') {
 				if (isAltPressed == false) {
 				} else {
 					if (event.code == letters[i].code) {
