@@ -93,10 +93,10 @@ function mouseClick(_this) {
 		fill();
 		caps();
 	} else if (attribute == '58') {
-		textArea.append(' ');
+		textArea.append(Space());
 		//Tab
 	} else if (attribute == '14') {
-		textArea.append('    ');
+		textArea.append(Tab());
 		//Backspace
 	} else if (attribute == '13') {
 		textArea.append(Backspace());
@@ -184,7 +184,8 @@ function mouseClick(_this) {
 		textArea.append('');
 		//Enter
 	} else {
-		textArea.append(letters[attribute].eng[fontType]);
+		// textArea.append(letters[attribute].eng[fontType]);
+		textArea.append(Else(letters[attribute].eng[fontType]));
 	}
 }
 
@@ -265,7 +266,7 @@ function getCaret(el) {
 	if (el.selectionStart) {
 		return el.selectionStart;
 	} else if (document.selection) {
-		el.focus();
+		// el.focus();
 
 		let r = document.selection.createRange();
 		if (r == null) {
@@ -284,7 +285,7 @@ function getCaret(el) {
 
 function resetCursor(txtElement, currentPos) {
 	if (txtElement.setSelectionRange) {
-		txtElement.focus();
+		// txtElement.focus();
 		txtElement.setSelectionRange(currentPos, currentPos);
 	} else if (txtElement.createTextRange) {
 		let range = txtElement.createTextRange();
@@ -361,4 +362,47 @@ function Enter() {
 	textarea.value = Delete;
 
 	resetCursor(textarea, currentPos + 1);
+}
+
+// Else
+function Else(x) {
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
+
+	let Delete =
+		text.substr(0, currentPos) + x + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos + 1);
+}
+
+// Space
+function Space() {
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
+
+	let Delete =
+		text.substr(0, currentPos) + ' ' + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos + 1);
+}
+// Tab
+function Tab() {
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
+
+	let Delete =
+		text.substr(0, currentPos) +
+		'    ' +
+		text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos + 4);
 }
