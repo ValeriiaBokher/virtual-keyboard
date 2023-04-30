@@ -80,6 +80,40 @@ function mouseClick(_this) {
 		else if (fontType == 1) fontType = 0;
 		button = '';
 		fill();
+	} else if (attribute == '58') {
+		textArea.append(' ');
+		//Tab
+	} else if (attribute == '14') {
+		textArea.append('    ');
+		//Backspace
+	} else if (attribute == '13') {
+		textArea.append(Backspace());
+		//Alt, Ctrl, Win
+	} else if (attribute == '28') {
+		textArea.append(Delete());
+	} else if (
+		attribute == '57' ||
+		attribute == '59' ||
+		attribute == '55' ||
+		attribute == '56' ||
+		attribute == '63'
+	) {
+		textArea.append('');
+		//Enter
+	} else if (attribute == '41') {
+		textArea.append('\n');
+		//arrowLeft
+	} else if (attribute == '60') {
+		textArea.append(ArrowLeft());
+		//arrowRight
+	} else if (attribute == '62') {
+		textArea.append(ArrowRight());
+		//arrowUp
+	} else if (attribute == '53') {
+		textArea.append(ArrowUp());
+		//arrowDown
+	} else if (attribute == '61') {
+		textArea.append(ArrowDown());
 		//Alt + Shift
 	} else if (
 		(attribute == '42' || attribute == '54') &&
@@ -90,6 +124,7 @@ function mouseClick(_this) {
 				.querySelector('.buttons[data="59"]')
 				.classList.contains('_active'))
 	) {
+		textArea.append('');
 		if (lang == 'eng') {
 			localStorage.setItem('Language', 'rus');
 			lang = 'rus';
@@ -110,6 +145,7 @@ function mouseClick(_this) {
 				.querySelector('.buttons[data="54"]')
 				.classList.contains('_active'))
 	) {
+		textArea.append('');
 		if (lang == 'eng') {
 			localStorage.setItem('Language', 'rus');
 			lang = 'rus';
@@ -121,6 +157,8 @@ function mouseClick(_this) {
 			button = '';
 			fill();
 		}
+	} else if (attribute == '42' || attribute == '54') {
+		textArea.append('');
 	} else {
 		textArea.append(letters[attribute].eng[fontType]);
 	}
@@ -128,7 +166,6 @@ function mouseClick(_this) {
 
 // при нажатии кнопки на клавиатуре включается анимания
 document.addEventListener('keydown', function (event) {
-	console.log(event);
 	for (let i = 0; i < letters.length; i++) {
 		let divButton = document.querySelector(
 			'.buttons[data="' + letters[i].button + '"]'
@@ -141,6 +178,7 @@ document.addEventListener('keydown', function (event) {
 			event.key == 'Control'
 		) {
 			if (event.code == letters[i].code) {
+				event.preventDefault();
 				divButton.classList.add('_active');
 				divButton.click();
 			}
@@ -157,7 +195,6 @@ document.addEventListener('keydown', function (event) {
 
 // при отжатии кнопки на клавиатуре выключается анимания
 document.addEventListener('keyup', function (event) {
-	3;
 	for (let i = 0; i < letters.length; i++) {
 		for (let i = 0; i < letters.length; i++) {
 			let divButton = document.querySelector(
@@ -186,6 +223,112 @@ document.addEventListener('keyup', function (event) {
 
 // description
 var description = document.createElement('div');
+var description2 = document.createElement('div');
 description.classList.add('description');
-var descriptionText = document.createTextNode('Virtual Keyboard');
-keyboard.after(descriptionText);
+description2.classList.add('description2');
+description.innerText = 'Клавиатура создана в операционной системы Windows';
+description2.innerText = 'Для смены языка используйте комбинацию Alt + Shift';
+keyboard.after(description);
+description.after(description2);
+
+// TextArea Cursor for Backspace
+function getCaret(el) {
+	if (el.selectionStart) {
+		return el.selectionStart;
+	} else if (document.selection) {
+		el.focus();
+
+		var r = document.selection.createRange();
+		if (r == null) {
+			return 0;
+		}
+
+		var re = el.createTextRange(),
+			rc = re.duplicate();
+		re.moveToBookmark(r.getBookmark());
+		rc.setEndPoint('EndToStart', re);
+
+		return rc.text.length;
+	}
+	return 0;
+}
+
+function resetCursor(txtElement, currentPos) {
+	if (txtElement.setSelectionRange) {
+		txtElement.focus();
+		txtElement.setSelectionRange(currentPos, currentPos);
+	} else if (txtElement.createTextRange) {
+		var range = txtElement.createTextRange();
+		range.moveStart('character', currentPos);
+		range.select();
+	}
+}
+
+function Backspace() {
+	var textarea = document.querySelector('.textarea');
+	var currentPos = getCaret(textarea);
+	var text = textarea.value;
+
+	var backSpace =
+		text.substr(0, currentPos - 1) + text.substr(currentPos, text.length);
+
+	textarea.value = backSpace;
+
+	resetCursor(textarea, currentPos - 1);
+}
+
+// TextArea Cursor for Delete
+function Delete() {
+	var textarea = document.querySelector('.textarea');
+	var currentPos = getCaret(textarea);
+	var text = textarea.value;
+
+	var Delete =
+		text.substr(0, currentPos) + text.substr(currentPos + 1, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos);
+}
+
+// TextArea ArrowLeft
+function ArrowLeft() {
+	var textarea = document.querySelector('.textarea');
+	var currentPos = getCaret(textarea);
+	var text = textarea.value;
+
+	var Delete =
+		text.substr(0, currentPos) + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos - 1);
+}
+
+// TextArea ArrowrRight
+function ArrowRight() {
+	var textarea = document.querySelector('.textarea');
+	var currentPos = getCaret(textarea);
+	var text = textarea.value;
+
+	var Delete =
+		text.substr(0, currentPos) + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos + 1);
+}
+
+// TextArea ArrowrUp
+function ArrowUp() {
+	var textarea = document.querySelector('.textarea');
+	var currentPos = getCaret(textarea);
+	var text = textarea.value;
+
+	var Delete =
+		text.substr(0, currentPos) + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos);
+}
