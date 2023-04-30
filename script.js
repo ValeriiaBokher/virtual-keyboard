@@ -3,6 +3,7 @@ const body = document.body;
 // LANGUAGE
 let getLocalStorage = localStorage.getItem('Language');
 let lang;
+let altshift = [];
 if (getLocalStorage == null) {
 	localStorage.setItem('Language', 'eng');
 	lang = 'eng';
@@ -64,12 +65,21 @@ function fill() {
 			mouseClick(e.target);
 		});
 	}
+}
+fill();
 
+function caps() {
+	const buttons = document.querySelectorAll('.buttons');
 	if (fontType == 1) {
 		buttons[29].classList.add('_active-caps');
 	}
 }
-fill();
+
+function shiftAlt() {
+	const buttons = document.querySelectorAll('.buttons');
+	buttons[altshift[0]].classList.add('_active');
+	buttons[altshift[1]].classList.add('_active');
+}
 
 function mouseClick(_this) {
 	//	let _this = this;
@@ -81,6 +91,7 @@ function mouseClick(_this) {
 		else if (fontType == 1) fontType = 0;
 		button = '';
 		fill();
+		caps();
 	} else if (attribute == '58') {
 		textArea.append(' ');
 		//Tab
@@ -89,17 +100,8 @@ function mouseClick(_this) {
 		//Backspace
 	} else if (attribute == '13') {
 		textArea.append(Backspace());
-		//Alt, Ctrl, Win
 	} else if (attribute == '28') {
 		textArea.append(Delete());
-	} else if (
-		attribute == '57' ||
-		attribute == '59' ||
-		attribute == '55' ||
-		attribute == '56' ||
-		attribute == '63'
-	) {
-		textArea.append('');
 		//Enter
 	} else if (attribute == '41') {
 		textArea.append(Enter());
@@ -116,49 +118,71 @@ function mouseClick(_this) {
 	} else if (attribute == '61') {
 		//Alt + Shift
 	} else if (
-		(attribute == '42' || attribute == '54') &&
-		(document
-			.querySelector('.buttons[data="57"]')
-			.classList.contains('_active') ||
-			document
-				.querySelector('.buttons[data="59"]')
-				.classList.contains('_active'))
+		((attribute == '57' || attribute == '59') &&
+			(document
+				.querySelector('.buttons[data="42"]')
+				.classList.contains('_active') ||
+				document
+					.querySelector('.buttons[data="54"]')
+					.classList.contains('_active'))) ||
+		((attribute == '42' || attribute == '54') &&
+			(document
+				.querySelector('.buttons[data="57"]')
+				.classList.contains('_active') ||
+				document
+					.querySelector('.buttons[data="59"]')
+					.classList.contains('_active')))
 	) {
 		textArea.append('');
 		if (lang == 'eng') {
 			localStorage.setItem('Language', 'rus');
 			lang = 'rus';
-			button = '';
-			fill();
 		} else if (lang == 'rus') {
 			localStorage.setItem('Language', 'eng');
 			lang = 'eng';
-			button = '';
-			fill();
 		}
-	} else if (
-		(attribute == '57' || attribute == '59') &&
-		(document
-			.querySelector('.buttons[data="42"]')
-			.classList.contains('_active') ||
+		altshift = [];
+
+		if (
+			document
+				.querySelector('.buttons[data="42"]')
+				.classList.contains('_active')
+		)
+			altshift.push('42');
+		if (
 			document
 				.querySelector('.buttons[data="54"]')
-				.classList.contains('_active'))
+				.classList.contains('_active')
+		)
+			altshift.push('54');
+		if (
+			document
+				.querySelector('.buttons[data="57"]')
+				.classList.contains('_active')
+		)
+			altshift.push('57');
+		if (
+			document
+				.querySelector('.buttons[data="59"]')
+				.classList.contains('_active')
+		)
+			altshift.push('59');
+
+		button = '';
+		fill();
+		caps();
+		shiftAlt();
+	} else if (
+		attribute == '57' ||
+		attribute == '59' ||
+		attribute == '55' ||
+		attribute == '56' ||
+		attribute == '63' ||
+		attribute == '42' ||
+		attribute == '54'
 	) {
 		textArea.append('');
-		if (lang == 'eng') {
-			localStorage.setItem('Language', 'rus');
-			lang = 'rus';
-			button = '';
-			fill();
-		} else if (lang == 'rus') {
-			localStorage.setItem('Language', 'eng');
-			lang = 'eng';
-			button = '';
-			fill();
-		}
-	} else if (attribute == '42' || attribute == '54') {
-		textArea.append('');
+		//Enter
 	} else {
 		textArea.append(letters[attribute].eng[fontType]);
 	}
@@ -166,6 +190,7 @@ function mouseClick(_this) {
 
 // при нажатии кнопки на клавиатуре включается анимания
 document.addEventListener('keydown', function (event) {
+	console.log(event.key + '  ' + event.code);
 	for (let i = 0; i < letters.length; i++) {
 		let divButton = document.querySelector(
 			'.buttons[data="' + letters[i].button + '"]'
@@ -178,15 +203,17 @@ document.addEventListener('keydown', function (event) {
 			event.key == 'Control'
 		) {
 			if (event.code == letters[i].code) {
-				event.preventDefault();
 				divButton.classList.add('_active');
 				divButton.click();
+				event.preventDefault();
+				break;
 			}
 		} else {
 			for (let j = 0; j < letters[i].all.length; j++) {
 				if (event.key == letters[i].all[j]) {
 					divButton.classList.add('_active');
 					divButton.click();
+					break;
 				}
 			}
 		}
@@ -209,11 +236,13 @@ document.addEventListener('keyup', function (event) {
 			) {
 				if (event.code == letters[i].code) {
 					divButton.classList.remove('_active');
+					break;
 				}
 			} else {
 				for (let j = 0; j < letters[i].all.length; j++) {
 					if (event.key == letters[i].all[j]) {
 						divButton.classList.remove('_active');
+						break;
 					}
 				}
 			}
