@@ -1,4 +1,6 @@
 const body = document.body;
+let shiftAct;
+let isShiftPressed = false;
 
 // LANGUAGE
 let getLocalStorage = localStorage.getItem('Language');
@@ -24,7 +26,6 @@ body.appendChild(title);
 
 let textArea = document.createElement('textarea');
 textArea.classList.add('textarea');
-textArea.setAttribute('contenteditable', 'true');
 title.after(textArea);
 
 // KEYBOARD
@@ -79,6 +80,11 @@ function shiftAlt() {
 	const buttons = document.querySelectorAll('.buttons');
 	buttons[altshift[0]].classList.add('_active');
 	buttons[altshift[1]].classList.add('_active');
+}
+
+function shiftclickadd() {
+	const buttons = document.querySelectorAll('.buttons');
+	buttons[shiftAct].classList.add('_active');
 }
 
 function mouseClick(_this) {
@@ -170,7 +176,6 @@ function mouseClick(_this) {
 
 		button = '';
 		fill();
-		caps();
 		shiftAlt();
 	} else if (
 		attribute == '57' ||
@@ -197,8 +202,35 @@ document.addEventListener('keydown', function (event) {
 			'.buttons[data="' + letters[i].button + '"]'
 		);
 
-		if (
-			event.key == 'Shift' ||
+		if (event.key == 'Shift') {
+			if (isShiftPressed == true) {
+			} else {
+				if (event.code == letters[i].code) {
+					divButton.classList.add('_active');
+					event.preventDefault();
+					divButton.click();
+					if (fontType == 0) fontType = 1;
+					else if (fontType == 1) fontType = 0;
+					if (
+						document
+							.querySelector('.buttons[data="42"]')
+							.classList.contains('_active')
+					)
+						shiftAct = '42';
+					if (
+						document
+							.querySelector('.buttons[data="54"]')
+							.classList.contains('_active')
+					)
+						shiftAct = '54';
+					button = '';
+					fill();
+					shiftclickadd();
+					isShiftPressed = true;
+					break;
+				}
+			}
+		} else if (
 			event.key == 'AltGraph' ||
 			event.key == 'Alt' ||
 			event.key == 'Control'
@@ -228,9 +260,20 @@ document.addEventListener('keyup', function (event) {
 			let divButton = document.querySelector(
 				'.buttons[data="' + letters[i].button + '"]'
 			);
-
-			if (
-				event.key == 'Shift' ||
+			if (event.key == 'Shift') {
+				if (isShiftPressed == false) {
+				} else {
+					if (event.code == letters[i].code) {
+						divButton.classList.remove('_active');
+						if (fontType == 0) fontType = 1;
+						else if (fontType == 1) fontType = 0;
+						button = '';
+						fill();
+						isShiftPressed = false;
+						break;
+					}
+				}
+			} else if (
 				event.key == 'AltGraph' ||
 				event.key == 'Alt' ||
 				event.key == 'Control'
@@ -266,7 +309,7 @@ function getCaret(el) {
 	if (el.selectionStart) {
 		return el.selectionStart;
 	} else if (document.selection) {
-		// el.focus();
+		el.focus();
 
 		let r = document.selection.createRange();
 		if (r == null) {
@@ -285,7 +328,7 @@ function getCaret(el) {
 
 function resetCursor(txtElement, currentPos) {
 	if (txtElement.setSelectionRange) {
-		// txtElement.focus();
+		txtElement.focus();
 		txtElement.setSelectionRange(currentPos, currentPos);
 	} else if (txtElement.createTextRange) {
 		let range = txtElement.createTextRange();

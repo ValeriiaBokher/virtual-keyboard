@@ -11,6 +11,7 @@
 	width: 970px;
 	height: 170px;
 	resize: none;
+	border: 2px solid black;
 	border-radius: 15px;
 	padding: 10px;
 }
