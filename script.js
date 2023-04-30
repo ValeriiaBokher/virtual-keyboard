@@ -1,8 +1,8 @@
-var body = document.body;
+const body = document.body;
 
 // LANGUAGE
 let getLocalStorage = localStorage.getItem('Language');
-var lang;
+let lang;
 if (getLocalStorage == null) {
 	localStorage.setItem('Language', 'eng');
 	lang = 'eng';
@@ -13,28 +13,29 @@ if (getLocalStorage == null) {
 }
 
 // TITLE
-var title = document.createElement('h1');
-var titleText = document.createTextNode('Virtual Keyboard');
+let title = document.createElement('h1');
+let titleText = document.createTextNode('Virtual Keyboard');
 title.appendChild(titleText);
 title.classList.add('title');
 body.appendChild(title);
 
 // TEXTAREA
 
-var textArea = document.createElement('textarea');
+let textArea = document.createElement('textarea');
 textArea.classList.add('textarea');
+textArea.setAttribute('contenteditable', 'true');
 title.after(textArea);
 
 // KEYBOARD
-var keyboard = document.createElement('div');
+let keyboard = document.createElement('div');
 keyboard.classList.add('keyboard');
 textArea.after(keyboard);
 
 //CAPS LOCK
-var fontType = 0;
+let fontType = 0;
 
 // BUTTONS
-var button = '';
+let button = '';
 import letters from './letters.js';
 
 function fill() {
@@ -101,7 +102,7 @@ function mouseClick(_this) {
 		textArea.append('');
 		//Enter
 	} else if (attribute == '41') {
-		textArea.append('\n');
+		textArea.append(Enter());
 		//arrowLeft
 	} else if (attribute == '60') {
 		textArea.append(ArrowLeft());
@@ -113,7 +114,6 @@ function mouseClick(_this) {
 		textArea.append(ArrowUp());
 		//arrowDown
 	} else if (attribute == '61') {
-		textArea.append(ArrowDown());
 		//Alt + Shift
 	} else if (
 		(attribute == '42' || attribute == '54') &&
@@ -222,8 +222,8 @@ document.addEventListener('keyup', function (event) {
 });
 
 // description
-var description = document.createElement('div');
-var description2 = document.createElement('div');
+let description = document.createElement('div');
+let description2 = document.createElement('div');
 description.classList.add('description');
 description2.classList.add('description2');
 description.innerText = 'Клавиатура создана в операционной системы Windows';
@@ -238,12 +238,12 @@ function getCaret(el) {
 	} else if (document.selection) {
 		el.focus();
 
-		var r = document.selection.createRange();
+		let r = document.selection.createRange();
 		if (r == null) {
 			return 0;
 		}
 
-		var re = el.createTextRange(),
+		let re = el.createTextRange(),
 			rc = re.duplicate();
 		re.moveToBookmark(r.getBookmark());
 		rc.setEndPoint('EndToStart', re);
@@ -258,18 +258,18 @@ function resetCursor(txtElement, currentPos) {
 		txtElement.focus();
 		txtElement.setSelectionRange(currentPos, currentPos);
 	} else if (txtElement.createTextRange) {
-		var range = txtElement.createTextRange();
+		let range = txtElement.createTextRange();
 		range.moveStart('character', currentPos);
 		range.select();
 	}
 }
 
 function Backspace() {
-	var textarea = document.querySelector('.textarea');
-	var currentPos = getCaret(textarea);
-	var text = textarea.value;
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
 
-	var backSpace =
+	let backSpace =
 		text.substr(0, currentPos - 1) + text.substr(currentPos, text.length);
 
 	textarea.value = backSpace;
@@ -279,11 +279,11 @@ function Backspace() {
 
 // TextArea Cursor for Delete
 function Delete() {
-	var textarea = document.querySelector('.textarea');
-	var currentPos = getCaret(textarea);
-	var text = textarea.value;
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
 
-	var Delete =
+	let Delete =
 		text.substr(0, currentPos) + text.substr(currentPos + 1, text.length);
 
 	textarea.value = Delete;
@@ -293,11 +293,11 @@ function Delete() {
 
 // TextArea ArrowLeft
 function ArrowLeft() {
-	var textarea = document.querySelector('.textarea');
-	var currentPos = getCaret(textarea);
-	var text = textarea.value;
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
 
-	var Delete =
+	let Delete =
 		text.substr(0, currentPos) + text.substr(currentPos, text.length);
 
 	textarea.value = Delete;
@@ -307,28 +307,29 @@ function ArrowLeft() {
 
 // TextArea ArrowrRight
 function ArrowRight() {
-	var textarea = document.querySelector('.textarea');
-	var currentPos = getCaret(textarea);
-	var text = textarea.value;
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
 
-	var Delete =
+	let Delete =
 		text.substr(0, currentPos) + text.substr(currentPos, text.length);
 
 	textarea.value = Delete;
 
 	resetCursor(textarea, currentPos + 1);
 }
+// TextArea Enter
+function Enter() {
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
 
-// TextArea ArrowrUp
-function ArrowUp() {
-	var textarea = document.querySelector('.textarea');
-	var currentPos = getCaret(textarea);
-	var text = textarea.value;
-
-	var Delete =
-		text.substr(0, currentPos) + text.substr(currentPos, text.length);
+	let Delete =
+		text.substr(0, currentPos) +
+		'\n' +
+		text.substr(currentPos, text.length);
 
 	textarea.value = Delete;
 
-	resetCursor(textarea, currentPos);
+	resetCursor(textarea, currentPos + 1);
 }
