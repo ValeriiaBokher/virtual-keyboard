@@ -3,6 +3,7 @@ let shiftAct;
 let isShiftPressed = false;
 let isAltGraghPressed = false;
 let isAltPressed = false;
+let capsl;
 
 // LANGUAGE
 let getLocalStorage = localStorage.getItem('Language');
@@ -73,7 +74,7 @@ fill();
 
 function caps() {
 	const buttons = document.querySelectorAll('.buttons');
-	if (fontType == 1) {
+	if (capsl == true) {
 		buttons[29].classList.add('_active-caps');
 	}
 }
@@ -100,6 +101,12 @@ function mouseClick(_this) {
 		_this.classList.toggle('_active-caps');
 		if (fontType == 0) fontType = 1;
 		else if (fontType == 1) fontType = 0;
+
+		if (_this.classList.contains('_active-caps')) {
+			capsl = true;
+		} else {
+			capsl = false;
+		}
 		button = '';
 		fill();
 		caps();
@@ -166,8 +173,16 @@ function mouseClick(_this) {
 		)
 			shiftAct = '54';
 
+		if (
+			document
+				.querySelector('.buttons[data="29"]')
+				.classList.contains('_active-caps')
+		)
+			capsl = true;
+
 		button = '';
 		fill();
+		caps();
 		clickadd();
 	} else if (
 		attribute == '57' ||
