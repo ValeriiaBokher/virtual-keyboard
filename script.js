@@ -1,4 +1,5 @@
 const body = document.body;
+body.classList.add('body');
 let shiftAct;
 let isShiftPressed = false;
 let isAltGraghPressed = false;
@@ -8,7 +9,6 @@ let capsl;
 // LANGUAGE
 let getLocalStorage = localStorage.getItem('Language');
 let lang;
-let altshift = [];
 if (getLocalStorage == null) {
 	localStorage.setItem('Language', 'eng');
 	lang = 'eng';
@@ -61,6 +61,7 @@ function fill() {
 				'</div>';
 		}
 	}
+
 	keyboard.innerHTML = button;
 	// ввод с помощью мыши
 	const buttons = document.querySelectorAll('.buttons');
@@ -134,6 +135,7 @@ function mouseClick(_this) {
 		textArea.append(ArrowUp());
 		//arrowDown
 	} else if (attribute == '61') {
+		textArea.append(ArrowDown());
 		//Alt + Shift
 	} else if (
 		((attribute == '57' || attribute == '59') &&
@@ -214,6 +216,7 @@ document.addEventListener('keydown', function (event) {
 
 		if (event.key == 'Shift') {
 			if (isShiftPressed == true) {
+				// empty
 			} else {
 				if (event.code == letters[i].code) {
 					divButton.classList.add('_active');
@@ -237,30 +240,7 @@ document.addEventListener('keydown', function (event) {
 					fill();
 					isShiftPressed = true;
 					clickadd();
-					break;
-				}
-			}
-		} else if (event.code == 'AltRight') {
-			if (isAltGraghPressed == true) {
-			} else {
-				if (event.code == letters[i].code) {
-					divButton.classList.add('_active');
-					divButton.click();
-					event.preventDefault();
-					isAltGraghPressed = true;
-					clickadd();
-					break;
-				}
-			}
-		} else if (event.key == 'Alt' && event.code == 'AltLeft') {
-			if (isAltPressed == true) {
-			} else {
-				if (event.code == letters[i].code) {
-					divButton.classList.add('_active');
-					divButton.click();
-					event.preventDefault();
-					isAltPressed = true;
-					clickadd();
+					caps();
 					break;
 				}
 			}
@@ -270,6 +250,35 @@ document.addEventListener('keydown', function (event) {
 				divButton.click();
 				event.preventDefault();
 				break;
+			}
+		} else if (event.code == 'AltRight') {
+			if (isAltGraghPressed == true) {
+				// empty
+			} else {
+				if (event.code == letters[i].code) {
+					divButton.classList.add('_active');
+					document
+						.querySelector('.buttons[data="55"]')
+						.classList.remove('_active');
+					divButton.click();
+					event.preventDefault();
+					isAltGraghPressed = true;
+					clickadd();
+					break;
+				}
+			}
+		} else if (event.code == 'AltLeft') {
+			if (isAltPressed == true) {
+				// empty
+			} else {
+				if (event.code == letters[i].code) {
+					divButton.classList.add('_active');
+					divButton.click();
+					event.preventDefault();
+					isAltPressed = true;
+					clickadd();
+					break;
+				}
 			}
 		} else {
 			for (let j = 0; j < letters[i].all.length; j++) {
@@ -294,6 +303,7 @@ document.addEventListener('keyup', function (event) {
 			);
 			if (event.key == 'Shift') {
 				if (isShiftPressed == false) {
+					// empty
 				} else {
 					if (event.code == letters[i].code) {
 						divButton.classList.remove('_active');
@@ -301,12 +311,14 @@ document.addEventListener('keyup', function (event) {
 						else if (fontType == 1) fontType = 0;
 						button = '';
 						fill();
+						caps();
 						isShiftPressed = false;
 						break;
 					}
 				}
 			} else if (event.code == 'AltRight') {
 				if (isAltGraghPressed == false) {
+					// empty
 				} else {
 					if (event.code == letters[i].code) {
 						divButton.classList.remove('_active');
@@ -316,6 +328,7 @@ document.addEventListener('keyup', function (event) {
 				}
 			} else if (event.key == 'Alt' && event.code == 'AltLeft') {
 				if (isAltPressed == false) {
+					// empty
 				} else {
 					if (event.code == letters[i].code) {
 						divButton.classList.remove('_active');
@@ -494,4 +507,30 @@ function Tab() {
 	textarea.value = Delete;
 
 	resetCursor(textarea, currentPos + 4);
+}
+
+function ArrowUp() {
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
+
+	let Delete =
+		text.substr(0, currentPos) + '⯅' + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos + 1);
+}
+
+function ArrowDown() {
+	let textarea = document.querySelector('.textarea');
+	let currentPos = getCaret(textarea);
+	let text = textarea.value;
+
+	let Delete =
+		text.substr(0, currentPos) + '⯆' + text.substr(currentPos, text.length);
+
+	textarea.value = Delete;
+
+	resetCursor(textarea, currentPos + 1);
 }
