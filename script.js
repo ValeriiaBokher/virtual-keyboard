@@ -237,14 +237,25 @@ document.addEventListener('keydown', function (event) {
 					fill();
 					isShiftPressed = true;
 					clickadd();
+					caps();
 					break;
 				}
+			}
+		} else if (event.key == 'Control') {
+			if (event.code == letters[i].code) {
+				divButton.classList.add('_active');
+				divButton.click();
+				event.preventDefault();
+				break;
 			}
 		} else if (event.code == 'AltRight') {
 			if (isAltGraghPressed == true) {
 			} else {
 				if (event.code == letters[i].code) {
 					divButton.classList.add('_active');
+					document
+						.querySelector('.buttons[data="55"]')
+						.classList.remove('_active');
 					divButton.click();
 					event.preventDefault();
 					isAltGraghPressed = true;
@@ -252,7 +263,7 @@ document.addEventListener('keydown', function (event) {
 					break;
 				}
 			}
-		} else if (event.key == 'Alt' && event.code == 'AltLeft') {
+		} else if (event.code == 'AltLeft') {
 			if (isAltPressed == true) {
 			} else {
 				if (event.code == letters[i].code) {
@@ -263,13 +274,6 @@ document.addEventListener('keydown', function (event) {
 					clickadd();
 					break;
 				}
-			}
-		} else if (event.key == 'Control') {
-			if (event.code == letters[i].code) {
-				divButton.classList.add('_active');
-				divButton.click();
-				event.preventDefault();
-				break;
 			}
 		} else {
 			for (let j = 0; j < letters[i].all.length; j++) {
@@ -301,6 +305,7 @@ document.addEventListener('keyup', function (event) {
 						else if (fontType == 1) fontType = 0;
 						button = '';
 						fill();
+						caps();
 						isShiftPressed = false;
 						break;
 					}
