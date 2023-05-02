@@ -1,4 +1,5 @@
 const body = document.body;
+body.classList.add('body');
 let shiftAct;
 let isShiftPressed = false;
 let isAltGraghPressed = false;
@@ -60,6 +61,7 @@ function fill() {
 				'</div>';
 		}
 	}
+
 	keyboard.innerHTML = button;
 	// ввод с помощью мыши
 	const buttons = document.querySelectorAll('.buttons');
